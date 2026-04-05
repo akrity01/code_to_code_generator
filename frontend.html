@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pseudo Code Generator</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #1e1e2f;
+            color: white;
+            text-align: center;
+        }
+        textarea {
+            width: 80%;
+            height: 150px;
+            margin: 10px;
+        }
+        select, button {
+            padding: 10px;
+            margin: 10px;
+        }
+        #output {
+            background: black;
+            padding: 20px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🚀 Pseudo-Code → Code Generator</h1>
+
+<textarea id="inputCode" placeholder="Enter pseudo code..."></textarea>
+
+<br>
+
+<select id="language">
+    <option value="python">Python</option>
+    <option value="java">Java</option>
+    <option value="cpp">C++</option>
+    <option value="c">C++</option>
+</select>
+
+<br>
+
+<button onclick="generateCode()">Generate</button>
+
+<div id="output"></div>
+
+<script>
+async function generateCode() {
+    const code = document.getElementById("inputCode").value;
+    const lang = document.getElementById("language").value;
+
+    const res = await fetch("http://127.0.0.1:5000/generate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            code: code,
+            language: lang
+        })
+    });
+
+    const data = await res.json();
+    document.getElementById("output").innerText = data.output;
+}
+</script>
+
+</body>
+</html>
